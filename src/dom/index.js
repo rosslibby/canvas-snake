@@ -1,3 +1,4 @@
-import { createCavnas } from './canvas';
+import { createCanvas, createContext } from './canvas';
 
-createCavnas();
+createCanvas();
+createContext();
