@@ -1,3 +1,4 @@
 import { state } from './state';
 
-console.log(state);
+console.clear();
+console.log(state.get());
