@@ -32,4 +32,10 @@ const board = new State({
   player: [],
 });
 
-export const state = { game, player, board };
+const dom = new State({
+  container: document.body,
+  canvas: null,
+  ctx: null,
+});
+
+export const state = { game, player, board, dom };
