@@ -1,11 +1,21 @@
 body {
   background-color: #0d1116;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  height: 100vh;
   margin: 0;
+  place-items: center;
+  width: 100vw;
 }
 
 canvas {
   background-color: #ffffff0e;
   border-radius: 4px;
-  height: 40vh;
-  width: 60vw;
+}
+
+main {
+  box-sizing: border-box;
+  height: calc(100% - 5rem);
+  width: calc(100% - 5rem);
 }
