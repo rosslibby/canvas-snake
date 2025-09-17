@@ -1,12 +1,13 @@
 class State {
   constructor(initialState = {}) {
-    this.state = initialState;
+    this._state = initialState;
+    this.state = this.get.bind(this);
   }
   set(obj) {
-    this.state = { ...this.state, ...obj };
+    this._state = { ...this._state, ...obj };
   }
-  get() {
-    return this.state;
+  get(key) {
+    return this._state[key] || this._state;
   }
 }
 
@@ -14,19 +15,23 @@ export const state = new State();
 class Stateful {
   constructor(name, initialState = {}) {
     this.name = name;
-    this.state = initialState;
-    state.set({ [this.name]: this.state });
+    this._state = initialState;
+    state.set({ [this.name]: this._state });
     this.set = this.update.bind(this);
+    this.state = this.get.bind(this);
   }
-  update(obj) {
-    this.state = { ...this.state, ...obj };
-    state.set({ [this.name]: this.state });
+  update(value) {
+    if (typeof value === 'function') {
+      value = value(this._state);
+    }
+    this._state = { ...this._state, ...value };
+    state.set({ [this.name]: this._state });
   }
   get(key) {
     if (typeof key === 'undefined') {
-      return this.state;
+      return this._state;
     } else {
-      return this.state[key];
+      return this._state[key];
     }
   }
 }
