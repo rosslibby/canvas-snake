@@ -1,4 +1,4 @@
 import { state } from './state';
+import './dom';
 
-console.clear();
 console.log(state.get());
