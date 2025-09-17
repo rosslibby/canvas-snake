@@ -1,13 +1,13 @@
-import { dom, game } from './state';
+import { dom } from './state';
 
-function setup() {
+export function createCavnas() {
+  const { container } = dom.state();
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
-  dom.set({ canvas, ctx });
-  const { container } = dom.state();
+
   if (!container.querySelector('canvas')) {
     container.appendChild(canvas);
   }
-}
 
-setup();
+  dom.set({ canvas, ctx });
+}
