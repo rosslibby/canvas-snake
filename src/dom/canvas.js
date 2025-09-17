@@ -1,4 +1,4 @@
-import { dom } from './state';
+import { dom } from '../state';
 
 export function createCanvas() {
   const { container } = dom.state();
@@ -9,10 +9,4 @@ export function createCanvas() {
   }
 
   dom.set({ canvas });
-}
-
-export function createContext() {
-  const { canvas } = dom.state();
-  const ctx = canvas.getContext('2d');
-  dom.set({ ctx });
 }
