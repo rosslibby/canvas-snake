@@ -16,16 +16,24 @@ class Stateful {
   constructor(name, initialState = {}) {
     this.name = name;
     this._state = initialState;
-    state.set({ [this.name]: this._state });
     this.set = this.update.bind(this);
     this.state = this.get.bind(this);
+    this.passUpward();
+  }
+  passUpward() {
+    state.set({
+      [this.name]: {
+        ...this._state,
+        update: this.set,
+      },
+    });
   }
   update(value) {
     if (typeof value === 'function') {
       value = value(this._state);
     }
     this._state = { ...this._state, ...value };
-    state.set({ [this.name]: this._state });
+    this.passUpward();
   }
   get(key) {
     if (typeof key === 'undefined') {
@@ -35,6 +43,10 @@ class Stateful {
     }
   }
 }
+
+export const config = new Stateful('config', {
+  cellSize: 20,
+});
 
 export const game = new Stateful('game', {
   speed: 125,
