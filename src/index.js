@@ -1,4 +1,12 @@
 import { state } from './state';
 import './dom';
+import { initPlayer } from './player';
+import { renderLoop } from './render';
 
-console.log(state.get());
+function start() {
+  initPlayer();
+  console.log(state.get());
+  renderLoop();
+}
+
+start();

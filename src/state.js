@@ -46,7 +46,10 @@ class Stateful {
 
 export const config = new Stateful('config', {
   cellSize: 20,
+  fill: '#ffffff',
+  radius: 1,
 });
+export const getConfig = () => state.get('config');
 
 export const game = new Stateful('game', {
   speed: 125,
@@ -55,6 +58,7 @@ export const game = new Stateful('game', {
   gameOver: false,
   paused: false,
 });
+export const getGame = () => state.get('game');
 
 export const player = new Stateful('player', {
   score: 0,
@@ -62,6 +66,7 @@ export const player = new Stateful('player', {
   snake: [],
   name: '',
 });
+export const getPlayer = () => state.get('player');
 
 export const board = new Stateful('board', {
   rows: 0,
@@ -69,9 +74,11 @@ export const board = new Stateful('board', {
   cells: [],
   food: 0,
 });
+export const getBoard = () => state.get('board');
 
 export const dom = new Stateful('dom', {
   container: document.body,
   canvas: null,
   ctx: null,
 });
+export const getDom = () => state.get('dom');
