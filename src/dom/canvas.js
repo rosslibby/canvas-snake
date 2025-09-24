@@ -4,14 +4,10 @@ import { dom, state as appState } from '../state';
 export function createCanvas() {
   const { container } = dom.state();
   const canvas = document.createElement('canvas');
-
   dom.set({ canvas });
 
-  if (!container.querySelector('canvas')) {
-    updateCells();
-    container.appendChild(canvas);
-  }
-
+  updateCells();
+  container.appendChild(canvas);
   window.addEventListener('resize', updateCells);
 }
 
