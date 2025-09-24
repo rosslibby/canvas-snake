@@ -1,5 +1,5 @@
 import { getInnerSize } from './utils';
-import { dom } from '../state';
+import { dom, state as appState } from '../state';
 
 export function createCanvas() {
   const { container } = dom.state();
@@ -8,16 +8,26 @@ export function createCanvas() {
   dom.set({ canvas });
 
   if (!container.querySelector('canvas')) {
-    setCanvasDimensions();
+    updateCells();
     container.appendChild(canvas);
   }
 
-  window.addEventListener('resize', setCanvasDimensions);
+  window.addEventListener('resize', updateCells);
 }
 
-function setCanvasDimensions() {
-  const { container, canvas } = dom.state();
+function updateCells() {
+  const state = appState.state();
+  const { board, dom: { canvas, container }, config: { cellSize } } = state;
   const [width, height] = getInnerSize(container);
-  canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height);
+  const useableWidth = width * .9;
+  const useableHeight = height * .9;
+
+  const cols = Math.floor(useableWidth / cellSize);
+  const rows = Math.floor(useableHeight / cellSize);
+
+  canvas.setAttribute('width', cols * cellSize);
+  canvas.setAttribute('height', rows * cellSize);
+
+  const cells = Array.from({ length: rows * cols }, () => 0);
+  board.update({ rows, cols, cells });
 }
