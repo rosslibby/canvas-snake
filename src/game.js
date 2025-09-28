@@ -29,7 +29,7 @@ function setupInterval() {
 
 export function endGame() {
   const { update } = getGame();
-  update({ gameOver: true, running: false });
+  update({ gameOver: true, initialized: false, running: false });
 }
 
 export function startGame() {
