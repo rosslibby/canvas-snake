@@ -1,5 +1,5 @@
 import { endGame } from './game';
-import { getBoard, getPlayer } from './state';
+import { getBoard, getGame, getPlayer } from './state';
 
 export function initPlayer() {
   const { rows, cols } = getBoard();
@@ -15,12 +15,12 @@ export function initPlayer() {
     score: 0,
     snake: [head, body, tail],
   });
+  getGame().update({ initialized: true });
   updateCellsPlayer();
 }
 
 function updateCellsPlayer() {
   const snake = getPlayer().snake.map(idxFromXY);
-  console.log(`Player -> IDX:`, snake)
   const { cells, update } = getBoard();
   update({ cells: cells.map((v, i) => {
     if (v === 1 && !snake.includes(i)) {
@@ -75,8 +75,8 @@ function detectCollision([x, y]) {
   const { snake } = getPlayer();
   const { rows, cols } = getBoard();
 
-  const eastWest = x >= cols || x < 0;
-  const northSouth = y >= rows || y < 0;
+  const eastWest = x > cols || x < 0;
+  const northSouth = y > rows || y < 0;
   const self = snake.find(([sx, sy]) => sx === x && sy === y);
 
   return Boolean(eastWest || northSouth || self);

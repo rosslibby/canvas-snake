@@ -9,7 +9,6 @@ export function render() {
 
 function drawPlayer() {
   const { snake } = getPlayer();
-  console.log(`[[draw]]`, snake)
   snake.map(drawBlock);
 }
 
@@ -18,16 +17,11 @@ function drawBlock([x, y]) {
   const { cellSize, fill, radius } = getConfig();
   const size = cellSize - 2;
 
-  console.log(`Rendering ${x}:${y}...`)
-
   x = x * cellSize;
   y = y * cellSize;
 
-  console.log(`Coordinates ${x} x ${y}`)
-
   ctx.beginPath();
-  // ctx.fillStyle = fill;
-  ctx.fillStyle = 'white';
+  ctx.fillStyle = fill;
   ctx.roundRect(x + 2, y + 2, size, size, radius);
   ctx.fill();
   ctx.closePath();
