@@ -1,5 +1,4 @@
-import { getConfig, getPlayer, getDom, getGame } from './state';
-import { move } from './player';
+import { getConfig, getPlayer, getDom } from './state';
 
 export function render() {
   const { canvas, ctx } = getDom();
