@@ -1,7 +1,8 @@
-import { board, getPlayer, player } from './state';
+import { endGame } from './game';
+import { getBoard, getPlayer } from './state';
 
 export function initPlayer() {
-  const { rows, cols } = board.state();
+  const { rows, cols } = getBoard();
   const midX = cols % 2 ? Math.floor(cols / 2) : cols / 2 - 1;
   const midY = rows % 2 ? Math.floor(rows / 2) : rows / 2 - 1;
 
@@ -9,16 +10,16 @@ export function initPlayer() {
   const body = [midX, midY];
   const tail = [midX, midY + 1];
 
-  player.update({ snake: [head, body, tail] });
+  getPlayer().update({ snake: [head, body, tail] });
   console.log(`Snake built:`, [head, body, tail]);
   updateCellsPlayer();
 }
 
 function updateCellsPlayer() {
-  const snake = player.state('snake').map(idxFromXY);
+  const snake = getPlayer().snake.map(idxFromXY);
   console.log(`Player -> IDX:`, snake)
-  const { cells } = board.state();
-  board.update({ cells: cells.map((v, i) => {
+  const { cells, update } = getBoard();
+  update({ cells: cells.map((v, i) => {
     if (v === 1 && !snake.includes(i)) {
       return 0;
     } else if (snake.includes(i)) {
@@ -29,12 +30,12 @@ function updateCellsPlayer() {
 }
 
 function idxFromXY([x, y]) {
-  const { rows, cols } = board.state();
+  const { rows, cols } = getBoard();
   return y * cols + rows;
 }
 
 function xyFromIdx(idx) {
-  const { rows, cols } = board.state();
+  const { rows, cols } = getBoard();
   return idx % rows + Math.floor(idx / cols);
 }
 
@@ -57,6 +58,23 @@ export function move() {
   // remove tail
   snake.pop();
   const head = snake[0];
-  snake.unshift(directions[direction](head));
-  update({ snake });
+  const nextPosition = directions[direction](head);
+
+  if (!detectCollision(nextPosition)) {
+    snake.unshift(nextPosition);
+    update({ snake });
+  } else {
+    endGame();
+  }
+}
+
+function detectCollision([x, y]) {
+  const { snake } = getPlayer();
+  const { rows, cols } = getBoard();
+
+  const eastWest = x >= cols || x < 0;
+  const northSouth = y >= rows || y < 0;
+  const self = snake.find(([sx, sy]) => sx === x && sy === y);
+
+  return Boolean(eastWest || northSouth || self);
 }
