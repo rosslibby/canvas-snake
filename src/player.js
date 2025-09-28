@@ -62,10 +62,14 @@ export function move() {
   const moveDirection = moves.pop() || direction;
   const head = snake[0];
   const nextPosition = directions[moveDirection](head);
+  const ateFood = eat();
 
   if (!detectCollision(nextPosition)) {
     // remove tail
-    snake.pop();
+    if (!ateFood) {
+      snake.pop();
+    }
+
     snake.unshift(nextPosition);
     update({ snake });
   } else {
@@ -74,14 +78,8 @@ export function move() {
 }
 
 function detectCollision([x, y]) {
-  const { snake, update } = getPlayer();
-  const { food, rows, cols } = getBoard();
-
-  const [fx, fy] = xyFromIdx(food);
-  if (snake.find(([x, y]) => x === fx && y === fy)) {
-    update(({ score }) => ({ score: score + 10 }));
-    dropFood();
-  }
+  const { snake } = getPlayer();
+  const { rows, cols } = getBoard();
 
   const eastWest = x >= cols || x < 0;
   const northSouth = y >= rows || y < 0;
@@ -94,4 +92,18 @@ function detectCollision([x, y]) {
 
   const collision = Boolean(eastWest || northSouth || self);
   return collision;
+}
+
+function eat() {
+  const { snake, update } = getPlayer();
+  const { food } = getBoard();
+
+  const [fx, fy] = xyFromIdx(food);
+  const ate = Boolean(snake.find(([x, y]) => x === fx && y === fy));
+  if (ate) {
+    update(({ score }) => ({ score: score + 10 }));
+    dropFood();
+  }
+
+  return ate;
 }
