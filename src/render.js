@@ -1,9 +1,18 @@
-import { getConfig, getPlayer, getDom } from './state';
+import { xyFromIdx } from './player';
+import { getConfig, getPlayer, getDom, getBoard } from './state';
 
 export function render() {
   const { canvas, ctx } = getDom();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawPlayer();
+  drawFood();
+}
+
+function drawFood() {
+  const { food } = getBoard();
+
+  console.log('Food:', food, xyFromIdx(food))
+  drawBlock(xyFromIdx(food));
 }
 
 function drawPlayer() {

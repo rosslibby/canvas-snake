@@ -37,9 +37,9 @@ export function idxFromXY([x, y]) {
   return y * cols + rows;
 }
 
-function xyFromIdx(idx) {
+export function xyFromIdx(idx) {
   const { rows, cols } = getBoard();
-  return idx % rows + Math.floor(idx / cols);
+  return [Math.floor(idx / cols), idx % rows];
 }
 
 export function moveUp() {

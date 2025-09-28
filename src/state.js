@@ -75,7 +75,7 @@ export const board = new Stateful('board', {
   rows: 0,
   cols: 0,
   cells: [],
-  food: 0,
+  food: -1,
 });
 export const getBoard = () => state.get('board');
 
