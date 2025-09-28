@@ -7,20 +7,6 @@ export function render() {
   drawPlayer();
 }
 
-export function renderLoop() {
-  const { interval, update, speed } = getGame();
-  render();
-
-  if (!interval) {
-    update({
-      interval: setInterval(() => {
-        move();
-        render();
-      }, speed),
-    })
-  }
-}
-
 function drawPlayer() {
   const { snake } = getPlayer();
   console.log(`[[draw]]`, snake)
