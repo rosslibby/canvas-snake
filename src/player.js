@@ -1,5 +1,5 @@
 import { endGame } from './game';
-import { getBoard, getGame, getPlayer } from './state';
+import { getBoard, getControls, getGame, getPlayer } from './state';
 
 export function initPlayer() {
   const { rows, cols } = getBoard();
@@ -32,7 +32,7 @@ function updateCellsPlayer() {
   })})
 }
 
-function idxFromXY([x, y]) {
+export function idxFromXY([x, y]) {
   const { rows, cols } = getBoard();
   return y * cols + rows;
 }
@@ -57,13 +57,15 @@ export function move() {
     west: ([x, y]) => [x - 1, y],
   };
   const { direction, snake, update } = getPlayer();
+  const { update: updateControls } = getControls();
+  updateControls({ lastMove: Date.now() });
 
-  // remove tail
-  snake.pop();
   const head = snake[0];
   const nextPosition = directions[direction](head);
 
   if (!detectCollision(nextPosition)) {
+    // remove tail
+    snake.pop();
     snake.unshift(nextPosition);
     update({ snake });
   } else {
@@ -72,12 +74,23 @@ export function move() {
 }
 
 function detectCollision([x, y]) {
-  const { snake } = getPlayer();
+  const { direction, snake } = getPlayer();
   const { rows, cols } = getBoard();
 
-  const eastWest = x > cols || x < 0;
-  const northSouth = y > rows || y < 0;
-  const self = snake.find(([sx, sy]) => sx === x && sy === y);
+  const eastWest = x >= cols || x < 0;
+  const northSouth = y >= rows || y < 0;
 
-  return Boolean(eastWest || northSouth || self);
+  const evaluating = snake.slice(1, snake.length);
+  const self = snake.slice(1, snake.length)
+    .find(([sx, sy]) => sx === x && sy === y);
+
+  const collision = Boolean(eastWest || northSouth || self);
+
+  if (collision) {
+    console.log(`Collision ${direction} due to:`);
+    console.log(`--> [next]: ${x} x ${y}`);
+    console.log(`--> [self]: ${self[0]} x ${self[1]}`);
+    console.log(`from comparison:`, snake, evaluating);
+  }
+  return collision;
 }

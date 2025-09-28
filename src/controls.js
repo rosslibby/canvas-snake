@@ -1,4 +1,4 @@
-import { getGame, getPlayer } from './state';
+import { getControls, getGame, getPlayer } from './state';
 import { startGame, togglePauseGame } from './game';
 
 const directions = {
@@ -13,16 +13,16 @@ const validKeys = {
   east: ['ArrowUp', 'ArrowDown'],
   west: ['ArrowUp', 'ArrowDown'],
 };
-const startKeys = [' ', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+// const startKeys = [' ', 'Enter', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+const startKeys = [' ', 'Enter'];
 function handleKeyboard(e) {
-  const { running } = getGame();
+  const { running, speed } = getGame();
   const { direction, update: updatePlayer } = getPlayer();
 
   if (!running) {
     if (startKeys.includes(e.key)) {
       startGame();
     }
-    return;
   }
 
   /**
@@ -33,10 +33,17 @@ function handleKeyboard(e) {
    * direction only to Y-axis
    */
   if (e.key.startsWith('Arrow')) {
+    const { update: updateControls } = getControls();
     const arrow = e.key;
     const valid = validKeys[direction];
     if (valid.includes(arrow)) {
-      updatePlayer({ direction: directions[arrow] });
+      const wait = findWaitTime();
+
+      updateControls({ lastMove: Date.now() });
+
+      setTimeout(() => {
+        updatePlayer({ direction: directions[arrow] });
+      }, wait);
     }
   } else if (e.key === 'Escape') {
     togglePauseGame();
@@ -44,3 +51,18 @@ function handleKeyboard(e) {
 }
 
 document.addEventListener('keydown', handleKeyboard);
+
+function findWaitTime() {
+  const { speed } = getGame();
+  const { lastMove, lastRender } = getControls();
+
+  if (lastMove <= lastRender) {
+    // safe to proceed
+    return 0;
+  } else if (Date.now() >= lastMove + speed) {
+    // safe to proceed
+    return 0;
+  } else {
+    return Date.now() - lastMove + speed;
+  }
+}
