@@ -2,14 +2,11 @@ import './state';
 import './controls';
 import './dom';
 import { initPlayer } from './player';
-import { render, renderLoop } from './render';
-import { startGame } from './game';
+import { render } from './render';
 
 function start() {
   initPlayer();
-  // console.log(state.get());
   render();
-  // renderLoop();
 }
 
 start();
