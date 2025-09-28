@@ -10,8 +10,11 @@ export function initPlayer() {
   const body = [midX, midY];
   const tail = [midX, midY + 1];
 
-  getPlayer().update({ snake: [head, body, tail] });
-  console.log(`Snake built:`, [head, body, tail]);
+  getPlayer().update({
+    direction: 'north',
+    score: 0,
+    snake: [head, body, tail],
+  });
   updateCellsPlayer();
 }
 

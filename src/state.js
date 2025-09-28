@@ -55,6 +55,7 @@ export const game = new Stateful('game', {
   speed: 125,
   running: false,
   interval: null,
+  initialized: false,
   gameOver: false,
   paused: false,
 });
