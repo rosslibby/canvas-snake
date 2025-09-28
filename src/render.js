@@ -1,5 +1,5 @@
 import { getConfig, getPlayer, getDom, getGame } from './state';
-import { moveUp } from './player';
+import { move } from './player';
 
 export function render() {
   const { canvas, ctx } = getDom();
@@ -14,7 +14,7 @@ export function renderLoop() {
   if (!interval) {
     update({
       interval: setInterval(() => {
-        moveUp();
+        move();
         render();
       }, speed),
     })

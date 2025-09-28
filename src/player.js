@@ -44,3 +44,19 @@ export function moveUp() {
     snake: snake.map(([x, y]) => [x, y - 1]),
   });
 }
+
+export function move() {
+  const directions = {
+    north: ([x, y]) => [x, y - 1],
+    south: ([x, y]) => [x, y + 1],
+    east: ([x, y]) => [x + 1, y],
+    west: ([x, y]) => [x - 1, y],
+  };
+  const { direction, snake, update } = getPlayer();
+
+  // remove tail
+  snake.pop();
+  const head = snake[0];
+  snake.unshift(directions[direction](head));
+  update({ snake });
+}

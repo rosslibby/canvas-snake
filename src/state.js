@@ -62,6 +62,7 @@ export const getGame = () => state.get('game');
 
 export const player = new Stateful('player', {
   score: 0,
+  direction: 'north',
   duration: 0,
   snake: [],
   name: '',
