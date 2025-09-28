@@ -1,7 +1,6 @@
 import { getGame } from './state';
 import { render } from './render';
 import { initPlayer, move } from './player';
-import { dropFood } from './board';
 
 function setupInterval() {
   const { gameOver, initialized, speed, update } = getGame();

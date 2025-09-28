@@ -8,5 +8,6 @@ export function dropFood() {
   const snakeIndices = snake.map(idxFromXY);
   const available = cells.filter((_, i) => !snakeIndices.includes(i));
   const foodIdx = Math.floor(Math.random() * available.length);
+  console.log(`New food drop:`, foodIdx);
   update({ food: foodIdx });
 }

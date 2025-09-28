@@ -1,3 +1,4 @@
+import { dropFood } from './board';
 import { endGame } from './game';
 import { getBoard, getGame, getPlayer } from './state';
 
@@ -73,13 +74,17 @@ export function move() {
 }
 
 function detectCollision([x, y]) {
-  const { snake } = getPlayer();
-  const { rows, cols } = getBoard();
+  const { snake, update } = getPlayer();
+  const { food, rows, cols } = getBoard();
+
+  const [fx, fy] = xyFromIdx(food);
+  if (snake.find(([x, y]) => x === fx && y === fy)) {
+    update(({ score }) => ({ score: score + 10 }));
+    dropFood();
+  }
 
   const eastWest = x >= cols || x < 0;
   const northSouth = y >= rows || y < 0;
-
-  const evaluating = snake.slice(1, snake.length);
 
   /**
    * It's impossible for the snake's top 3 cells to collide

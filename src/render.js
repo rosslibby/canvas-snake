@@ -11,7 +11,6 @@ export function render() {
 function drawFood() {
   const { food } = getBoard();
 
-  console.log('Food:', food, xyFromIdx(food))
   drawBlock(xyFromIdx(food));
 }
 
