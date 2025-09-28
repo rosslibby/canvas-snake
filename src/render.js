@@ -1,11 +1,9 @@
-import { getConfig, getControls, getPlayer, getDom } from './state';
+import { getConfig, getPlayer, getDom } from './state';
 
 export function render() {
   const { canvas, ctx } = getDom();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawPlayer();
-
-  getControls().update({ lastRender: Date.now() });
 }
 
 function drawPlayer() {

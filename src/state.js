@@ -51,14 +51,6 @@ export const config = new Stateful('config', {
 });
 export const getConfig = () => state.get('config');
 
-export const controls = new Stateful('controls', {
-  moved: Date.now(),
-  lastRender: Date.now(),
-  lastMove: Date.now(),
-  timeElapsed: Infinity,
-});
-export const getControls = () => state.get('controls');
-
 export const game = new Stateful('game', {
   speed: 125,
   running: false,
@@ -70,6 +62,7 @@ export const game = new Stateful('game', {
 export const getGame = () => state.get('game');
 
 export const player = new Stateful('player', {
+  moves: [],
   score: 0,
   direction: 'north',
   duration: 0,

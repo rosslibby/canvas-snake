@@ -1,5 +1,5 @@
 import { endGame } from './game';
-import { getBoard, getControls, getGame, getPlayer } from './state';
+import { getBoard, getGame, getPlayer } from './state';
 
 export function initPlayer() {
   const { rows, cols } = getBoard();
@@ -56,12 +56,11 @@ export function move() {
     east: ([x, y]) => [x + 1, y],
     west: ([x, y]) => [x - 1, y],
   };
-  const { direction, snake, update } = getPlayer();
-  const { update: updateControls } = getControls();
-  updateControls({ lastMove: Date.now() });
+  const { direction, moves, snake, update } = getPlayer();
 
+  const moveDirection = moves.pop() || direction;
   const head = snake[0];
-  const nextPosition = directions[direction](head);
+  const nextPosition = directions[moveDirection](head);
 
   if (!detectCollision(nextPosition)) {
     // remove tail
@@ -74,23 +73,20 @@ export function move() {
 }
 
 function detectCollision([x, y]) {
-  const { direction, snake } = getPlayer();
+  const { snake } = getPlayer();
   const { rows, cols } = getBoard();
 
   const eastWest = x >= cols || x < 0;
   const northSouth = y >= rows || y < 0;
 
   const evaluating = snake.slice(1, snake.length);
+
+  /**
+   * It's impossible for the snake's top 3 cells to collide
+   */
   const self = snake.slice(1, snake.length)
     .find(([sx, sy]) => sx === x && sy === y);
 
   const collision = Boolean(eastWest || northSouth || self);
-
-  if (collision) {
-    console.log(`Collision ${direction} due to:`);
-    console.log(`--> [next]: ${x} x ${y}`);
-    console.log(`--> [self]: ${self[0]} x ${self[1]}`);
-    console.log(`from comparison:`, snake, evaluating);
-  }
   return collision;
 }
