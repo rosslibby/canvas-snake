@@ -1,0 +1,42 @@
+import { getGame } from './state';
+import { render } from './render';
+import { initPlayer, move } from './player';
+
+function setupInterval() {
+  const { gameOver, initialized, speed, update } = getGame();
+
+  if (gameOver || !initialized) {
+    initPlayer();
+  }
+
+  update({
+    interval: setInterval(() => {
+      const { gameOver, interval, running, update } = getGame();
+      if (running && !gameOver) {
+        move();
+        render();
+      } else {
+        clearInterval(interval);
+        if (running) {
+          update({ running: false });
+        }
+      }
+    }, speed),
+    running: true,
+    gameOver: false,
+  });
+}
+
+export function endGame() {
+  const { update } = getGame();
+  update({ gameOver: true, running: false });
+}
+
+export function startGame() {
+  setupInterval();
+}
+
+export function togglePauseGame() {
+  const { update } = getGame();
+  update(({ running }) => ({ running: !running }));
+}
