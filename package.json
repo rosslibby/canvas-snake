@@ -22,7 +22,10 @@
   "scripts": {
     "build": "webpack",
     "style:watch": "sass --watch src/styles:dist/css",
+    "tsstyle:watch": "sass --watch ts-src/styles:ts-dist/css",
     "serve": "webpack serve",
-    "dev": "concurrently \"npm run style:watch\" \"npm run serve\""
+    "serve:ts": "webpack serve --config webpack.config.ts.js",
+    "dev": "concurrently \"npm run style:watch\" \"npm run serve\"",
+    "dev:ts": "concurrently \"npm run tsstyle:watch\" \"npm run serve:ts\""
   }
 }

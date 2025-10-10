@@ -1,3 +1,6 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
 module.exports = {
   mode: 'development',
   entry: '/ts-src/index.ts',
@@ -27,4 +30,11 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
   ],
+  devServer: {
+    static: {
+      directory: __dirname + '/ts-dist',
+    },
+    compress: true,
+    port: 3000,
+  },
 }
