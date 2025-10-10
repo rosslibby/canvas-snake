@@ -1,7 +1,7 @@
 {
   "name": "snake",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^24.7.1",
@@ -22,10 +22,7 @@
   "scripts": {
     "build": "webpack",
     "style:watch": "sass --watch src/styles:dist/css",
-    "tsstyle:watch": "sass --watch ts-src/styles:ts-dist/css",
     "serve": "webpack serve",
-    "serve:ts": "webpack serve --config webpack.config.ts.js",
-    "dev": "concurrently \"npm run style:watch\" \"npm run serve\"",
-    "dev:ts": "concurrently \"npm run tsstyle:watch\" \"npm run serve:ts\""
+    "dev": "concurrently \"npm run style:watch\" \"npm run serve\""
   }
 }

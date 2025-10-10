@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./ts-src",
+    "baseUrl": "./src",
     "target": "es2016",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -10,6 +10,6 @@
     "noEmit": false,
     "resolveJsonModule": true
   },
-  "include": ["ts-src"],
-  "exclude": ["node_modules", "src", "dist"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
