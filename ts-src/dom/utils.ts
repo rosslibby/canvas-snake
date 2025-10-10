@@ -2,7 +2,8 @@ function styleAsNumber(
   el: HTMLElement,
   style: keyof CSSStyleDeclaration,
 ) {
-  const value = getComputedStyle(el)[style as keyof CSSStyleDeclaration]
+  const value = getComputedStyle(el)[style]
+    ?.toString().match(/\d+/g)?.map(Number)
 
   if (Array.isArray(value)) {
     return Number(value[0])
