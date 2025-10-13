@@ -1,5 +1,6 @@
 import { state } from './state'
 import { useState } from './client'
+import { startGame } from '../game'
 
 export { state, useState }
 
@@ -41,6 +42,20 @@ export const getBoard = () => state.get('board')
 export const dom = useState('dom', {
   container: document.body,
   canvas: null,
+  overlay: null,
   ctx: null,
 })
 export const getDom = () => state.get('dom')
+
+export const overlay = useState('overlay', {
+  visible: true,
+  title: 'Play snake',
+  subtitle: '',
+  actions: [
+    {
+      label: 'Play',
+      action: startGame,
+    }
+  ],
+})
+export const getOverlay = () => state.get('overlay')

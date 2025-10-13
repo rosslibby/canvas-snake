@@ -1,6 +1,7 @@
 import { getGame } from './state'
 import { render } from './render'
 import { initPlayer, move } from './player'
+import { toggleOverlay } from './dom/overlay';
 
 function setupInterval() {
   const { gameOver, initialized, speed, update } = getGame();
@@ -34,6 +35,7 @@ export function endGame() {
 
 export function startGame() {
   setupInterval();
+  toggleOverlay();
 }
 
 export function togglePauseGame() {
@@ -41,4 +43,5 @@ export function togglePauseGame() {
   update(({ running }: {
     running: boolean
   }) => ({ running: !running }));
+  toggleOverlay();
 }
