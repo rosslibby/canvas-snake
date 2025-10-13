@@ -2,6 +2,7 @@ import { MoveCoordinates } from 'types'
 import { dropFood } from './board'
 import { endGame } from './game'
 import { getBoard, getGame, getPlayer } from './state'
+import { renderScore } from './dom/score'
 
 export function initPlayer() {
   const { rows, cols } = getBoard()
@@ -106,6 +107,7 @@ function eat() {
   if (ate) {
     update(({ score }: { score: number }) => ({ score: score + 10 }))
     dropFood()
+    renderScore()
   }
 
   return ate

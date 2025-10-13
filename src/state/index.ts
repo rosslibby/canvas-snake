@@ -59,3 +59,8 @@ export const overlay = useState('overlay', {
   ],
 })
 export const getOverlay = () => state.get('overlay')
+
+export const score = useState('score', {
+  show: false,
+})
+export const getScore = () => state.get('score')
