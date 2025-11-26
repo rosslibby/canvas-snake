@@ -11,5 +11,5 @@ export function renderScore() {
   container.appendChild(scoreEl)
   setTimeout(() => {
     scoreEl.remove()
-  }, 1250)
+  }, 2000)
 }
